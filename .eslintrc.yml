@@ -1,0 +1,63 @@
+# eslint for dev with plugin import and webpack resolver
+
+parser: babel-eslint
+parserOptions:
+  sourceType: module
+  ecmaFeatures:
+    jsx: true
+
+plugins:
+  - import
+  - react
+
+extends:
+  - airbnb
+  - plugin:import/errors
+  - plugin:import/warnings
+
+env:
+  browser: true
+  es6: true
+  node: true
+  amd: true
+  jest: true
+
+globals:
+  contextComponent: false
+
+settings:
+  import/resolver:
+    webpack:
+      config: 'webpack.config.js'
+
+rules:
+  padded-blocks: [2, { "blocks": "never", "classes": "never", "switches": "never" }]
+  arrow-parens: 0
+  max-len: 0
+  no-continue: 0
+  no-useless-escape: 0
+  no-console: ["error", { allow: ["warn", "error"] }]
+  function-paren-newline: 0
+  object-curly-newline: 0
+  class-methods-use-this: 0
+
+  # eslint-plugin-import
+  import/no-dynamic-require: 0
+  import/no-named-as-default: 0
+  import/no-extraneous-dependencies: 0
+  import/order: ["error", { "newlines-between": "always", "groups": [["builtin", "external"], ["internal", "parent", "sibling", "index"]] }]
+  import/first: 0 # Disabled because of jest.mock, read more: https://github.com/benmosher/eslint-plugin-import/issues/472
+
+  # eslint-plugin-react
+  react/jsx-curly-spacing: 2
+  react/jsx-filename-extension: [2, { "extensions": [".js", ".jsx"] }]
+  react/require-default-props: 0
+  react/no-find-dom-node: 0
+  react/sort-comp: 0  # this doesn't work
+  react/prefer-stateless-function: 0
+  react/no-multi-comp: 0
+  react/no-typos: 0
+
+  # jsx-a11y
+  jsx-a11y/no-static-element-interactions: 0
+  jsx-a11y/anchor-is-valid: ["error", { "components": [ "Link" ], "specialLink": ["to"], "aspects": [ "noHref", "invalidHref", "preferButton" ] }]
