@@ -15,7 +15,7 @@ import * as THREE from 'three';
 //    Zoom - middle mouse, or mousewheel / touch: two-finger spread or squish
 //    Pan - right mouse, or arrow keys / touch: two-finger move
 
-const OrbitControls = function (object, domElement) {
+const OrbitControls = function OrbitControls(object, domElement) {
   this.object = object;
 
   this.domElement = (domElement !== undefined) ? domElement : document;
