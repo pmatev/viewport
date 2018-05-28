@@ -531,12 +531,12 @@ function TransformControls(camera, domElement) {
     scale: new TransformGizmoScale(),
   };
 
-  for (const type in _gizmo) {
+  Object.keys(_gizmo).map(type => {
     const gizmoObj = _gizmo[type];
 
     gizmoObj.visible = (type === _mode);
     this.add(gizmoObj);
-  }
+  });
 
   const changeEvent = { type: 'change' };
   const mouseDownEvent = { type: 'mouseDown' };
@@ -597,7 +597,7 @@ function TransformControls(camera, domElement) {
   domElement.addEventListener('touchcancel', onPointerUp, false);
   domElement.addEventListener('touchleave', onPointerUp, false);
 
-  this.dispose = function () {
+  this.dispose = function dispose() {
     domElement.removeEventListener('mousedown', onPointerDown);
     domElement.removeEventListener('touchstart', onPointerDown);
 
@@ -954,7 +954,7 @@ function TransformControls(camera, domElement) {
     const intersections = ray.intersectObjects(objects, true);
     return intersections[0] ? intersections[0] : false;
   }
-};
+}
 
 TransformControls.prototype = Object.create(THREE.Object3D.prototype);
 TransformControls.prototype.constructor = TransformControls;
