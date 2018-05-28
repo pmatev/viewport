@@ -49,10 +49,11 @@ class App extends Component {
     this.transformControl = new TransformControls(camera, this.root);
     this.transformControl.addEventListener('change', this.animate);
 
-    this.transformControl.attach(object)
+    this.transformControl.attach(object);
+
     scene.add(this.transformControl);
 
-    document.addEventListener('mousemove', this.onDocumentMouseMove, false);
+    document.addEventListener('mousemove', this.onMouseMove, false);
     this.registerKeyboardEvents();
     this.animate();
   }
@@ -100,11 +101,11 @@ class App extends Component {
     });
   }
 
-  onDocumentMouseMove = (event) => {
+  onMouseMove = (event) => {
     event.preventDefault();
     this.mouse = this.mouse || new THREE.Vector2();
-    this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    this.mouse.x = (event.clientX / window.innerWidth) * 2;
+    this.mouse.y = -(event.clientY / window.innerHeight) * 2;
 
     const raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(this.mouse, this.camera);
