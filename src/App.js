@@ -3,6 +3,7 @@ import * as THREE from 'three';
 
 import OrbitControls from './lib/OrbitControls';
 import TransformControls from './lib/TransformControls';
+import { AXES, BUTTONS } from './lib/ps4';
 
 const defaultMaterial = new THREE.MeshLambertMaterial({ color: Math.random() * 0xffffff });
 const outlineMaterial = new THREE.MeshToonMaterial({ color: Math.random() * 0xffffff });
@@ -46,16 +47,24 @@ class App extends Component {
     this.object = object;
 
     this.orbitControl = new OrbitControls(camera);
-    this.transformControl = new TransformControls(camera, this.root);
-    this.transformControl.addEventListener('change', this.animate);
+    // this.transformControl = new TransformControls(camera, this.root);
+    // this.transformControl.addEventListener('change', this.animate);
 
-    this.transformControl.attach(object);
+    // this.transformControl.attach(object);
 
-    scene.add(this.transformControl);
+    // scene.add(this.transformControl);
 
     document.addEventListener('mousemove', this.onMouseMove, false);
     this.registerKeyboardEvents();
+
+    this.registerGamepad();
     this.animate();
+  }
+
+  registerGamepad() {
+    window.addEventListener('gamepadconnected', e => {
+      this.gamepad = navigator.getGamepads()[e.gamepad.index];
+    });
   }
 
   registerKeyboardEvents = () => {
@@ -113,11 +122,21 @@ class App extends Component {
   }
 
   animate = () => {
-    requestAnimationFrame(this.animate);
-    this.renderScene();
+    this.update();
     this.orbitControl.update();
-    this.transformControl.update();
+    // this.transformControl.update();
+    this.renderScene();
+
+    requestAnimationFrame(this.animate);
     // stats.update();
+  }
+
+  update() {
+    if (!this.gamepad) return;
+    const gamepad = navigator.getGamepads()[0];
+    const translateX = gamepad.axes[AXES.LEFT.X];
+    const translateY = -1 * gamepad.axes[AXES.LEFT.Y];
+    this.object.position.add(new THREE.Vector3(translateX, translateY, 0));
   }
 
   renderScene = () => {
